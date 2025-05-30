@@ -30,7 +30,7 @@
     else {
         uid = Integer.parseInt(session.getAttribute("UID").toString());
     }%>
-	<form method="post" action="logout.jsp">
+	<form method="post" action="/NASProject/logout.jsp">
                <input type="submit" value="로그아웃">
         </form>
 <%

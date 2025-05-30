@@ -9,7 +9,7 @@ import javax.naming.*;
 import javax.sql.*;
 import java.sql.*;
 
-@WebServlet("/LoginProcess")
+@WebServlet("/NASProject/LoginProcess")
 public class LoginProcess extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -23,6 +23,8 @@ public class LoginProcess extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		
 		request.setCharacterEncoding("UTF-8");
@@ -47,7 +49,7 @@ public class LoginProcess extends HttpServlet {
 			if ("member".equals(isMember)) {	// 회원인 경우 
 	
 				if (userId == null || password == null || userId.equals("test")) {
-					
+					out.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.'); location.href = '/';</script>");
 				}
 				else {
 		        		ps.setString(1, userId); // insert 
@@ -63,15 +65,18 @@ public class LoginProcess extends HttpServlet {
 	
 			else {					// error
 				// alert
+				out.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.'); location.href = '/';</script>");
+				
 			}
 
 	       	rs = ps.executeQuery(); // 값을 가져와서 select
 
 	       	if (rs.next()) { //1번째 uid 
-	        	session.setAttribute("UID", rs.getString(1)); //세션값 설정
+	        	session.setAttribute("UID", rs.getString(1)); // 세션 값 설정
 	            response.sendRedirect("file.jsp"); // 
 	       	} else {
 	         	//alert
+	       		out.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.'); location.href = '/';</script>");
 	      	}
 
 
@@ -83,7 +88,6 @@ public class LoginProcess extends HttpServlet {
 				try {
 					rs.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	        }
@@ -91,7 +95,6 @@ public class LoginProcess extends HttpServlet {
 				try {
 					ps.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	        }
@@ -99,7 +102,6 @@ public class LoginProcess extends HttpServlet {
 				try {
 					con.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	        }

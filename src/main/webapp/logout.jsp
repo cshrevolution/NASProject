@@ -5,5 +5,5 @@
 %>
 <script>
 	alert("로그아웃 되었습니다.");
-	window.location.href = "/NAS_Project/";
+	window.location.href = "/NASProject/";
 </script>
