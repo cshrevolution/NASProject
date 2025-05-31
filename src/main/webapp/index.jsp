@@ -3,9 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css">
+	<title>TNAS</title>
 <style>
     body {
         background-image: url('resources/k.jfif'); /* 여기에 이미지 URL 삽입 */
@@ -23,7 +24,7 @@
 
     <div class="col-md-4">
         <div class="jumbotron p-4 border rounded shadow bg-white bg-opacity-75">
-            <form method="post" action="/NASProject/LoginProcess">
+            <form method="post" action="/LoginProcess">
                 <h3 class="text-center mb-4" style="font-weight: bold;">TNAS</h3>
                 <div class="form-group mb-3">
                     <input type="text" class="form-control" placeholder="아이디" name="userId" maxlength="20">
@@ -35,7 +36,7 @@
                 <input type="submit" class="btn btn-primary form-control" value="로그인">
             </form>
 
-            <form method="post" action="/NASProject/LoginProcess" class="mt-3">
+            <form method="post" action="/LoginProcess" class="mt-3">
                 <input type="hidden" name="isMember" value="nonmember">
                 <input type="submit" class="btn btn-secondary form-control" value="비회원 로그인">
             </form>
