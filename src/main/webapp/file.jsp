@@ -14,8 +14,13 @@
 	<h1><%= request.getAttribute("currentDirectory") %></h1>
 	
 	<c:forEach items="${sortedFiles}" var="file">
-		<p><a href="file.jsp?dir=${file}">${file}</a></p>
+		<hr>
+		<form action="/LoadFile" method="post">
+  			<input type="hidden" name="dir" value="${file}" />
+  			<button type="submit">${file}</button>
+		</form>
 	</c:forEach>
+
 	
 </body>
 </html>
