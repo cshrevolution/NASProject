@@ -28,13 +28,7 @@ public class LoadFile extends HttpServlet {
     public LoadFile() {
         super();
     }
-    
-    
-    /*
-     * 
-     * file.jsp에서 버튼 눌렀을 때 post로 요쳥 보내야함.
-     * 
-     */
+   
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//response.getWriter().append("TEST");

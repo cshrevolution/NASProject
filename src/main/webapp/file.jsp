@@ -10,6 +10,10 @@
 	<form method="POST" action="/LogoutProcess">
 		<input type="submit" value="로그아웃">
 	</form>
+	<form method="POST" action="/UploadFile" enctype="multipart/form-data">
+		<input type="file" name="fileData" /><br>
+		<input type="submit" value="업로드" />
+	</form>
 	
 	<h1><%= request.getAttribute("currentDirectory") %></h1>
 	
@@ -20,7 +24,5 @@
   			<button type="submit">${file}</button>
 		</form>
 	</c:forEach>
-
-	
 </body>
 </html>
