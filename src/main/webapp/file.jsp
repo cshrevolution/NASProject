@@ -15,13 +15,13 @@
 		<input type="submit" value="업로드" />
 	</form>
 	
-	<h1><%= request.getAttribute("currentDirectory") %></h1>
+	<h1><%= request.getAttribute("userDirectory") %></h1>
 	
-	<c:forEach items="${sortedFiles}" var="file">
+	<c:forEach items="${sortedFiles}" var="file" varStatus="status">
 		<hr>
 		<form action="/LoadFile" method="post">
   			<input type="hidden" name="dir" value="${file}" />
-  			<button type="submit">${file}</button>
+  			<button type="submit">${sortedNames[status.index]}</button>
 		</form>
 	</c:forEach>
 </body>

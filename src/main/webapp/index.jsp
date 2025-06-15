@@ -9,7 +9,7 @@
 	<title>TNAS</title>
 <style>
     body {
-        background-image: url('resources/k.jfif'); /* 여기에 이미지 URL 삽입 */
+        background-image: url('resources/tnas.png'); /* 여기에 이미지 URL 삽입 */
         background-size: cover; /* 혹은 contain */
         background-position: center center;
         background-repeat: no-repeat;

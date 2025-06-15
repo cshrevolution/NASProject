@@ -74,16 +74,23 @@ public class LoadFile extends HttpServlet {
 		    
 		    if (dirs != null) {
 		    		String[] fileArray = new String[dirs.length];
+		    		String[] fileNames = new String[dirs.length];
 		    		
 		    		for (int i = 0; i < dirs.length; i++) {
 		    			fileArray[i] = dirs[i].getAbsolutePath();
 		    		}
 		    		
 		    		Arrays.sort(fileArray, String.CASE_INSENSITIVE_ORDER);
+		    		for (int i = 0; i < fileArray.length; i++) {
+		    			int slashIndex = fileArray[i].lastIndexOf('/');
+		    			fileNames[i] = fileArray[i].substring(slashIndex + 1);
+		    		}
 		    		request.setAttribute("sortedFiles", fileArray);
+		    		request.setAttribute("sortedNames", fileNames);
 		    }
 		    
-		    request.setAttribute("currentDirectory", currentDirectory);
+		    String userDirectory = currentDirectory.substring(currentDirectory.lastIndexOf('/') + 1);
+			request.setAttribute("userDirectory", userDirectory);
 		    request.getRequestDispatcher("file.jsp").forward(request, response);
 			
 		} catch (Exception e) {
@@ -132,16 +139,24 @@ public class LoadFile extends HttpServlet {
 			
 			if (dirs != null) {
 				String[] fileArray = new String[dirs.length];
+				String[] fileNames = new String[dirs.length];
 				
 				for (int i = 0; i < dirs.length; i++) {
 					fileArray[i] = dirs[i].getAbsolutePath();
 				}
 				
+				for (int i = 0; i < fileArray.length; i++) {
+	    			int slashIndex = fileArray[i].lastIndexOf('/');
+	    			fileNames[i] = fileArray[i].substring(slashIndex + 1);
+	    		}
+
 				Arrays.sort(fileArray, String.CASE_INSENSITIVE_ORDER);
 				request.setAttribute("sortedFiles", fileArray);
+				request.setAttribute("sortedNames", fileNames);
 			}
 			
-			request.setAttribute("currentDirectory", currentDirectory);
+			String userDirectory = currentDirectory.substring(currentDirectory.lastIndexOf('/') + 1);
+			request.setAttribute("userDirectory", userDirectory);
 			request.getRequestDispatcher("file.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
