@@ -28,10 +28,8 @@ public class LoadFile extends HttpServlet {
     public LoadFile() {
         super();
     }
-   
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//response.getWriter().append("TEST");
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
@@ -62,13 +60,6 @@ public class LoadFile extends HttpServlet {
 		    else {
 		    		out.println("<script>alert('잘못된 접근입니다!'); location.href = '/';</script>");
 		    }
-		    
-		    //파일 버튼 누를 시 기존 동작 (GET Method)
-		    /*
-		    if (request.getParameter("dir") != null) {
-    			currentDirectory = request.getParameter("dir");
-    		}
-    		*/
 		    
 		    File[] dirs = new File(currentDirectory).listFiles();
 		    
@@ -126,6 +117,7 @@ public class LoadFile extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 	
 		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
 		String currentDirectory = null;
 		
 		try {
@@ -134,27 +126,34 @@ public class LoadFile extends HttpServlet {
 			if (currentDirectory.isEmpty()) {
 				out.println("<script>alert('잘못된 접근입니다!'); location.href = '/';</script>");
 			}
+			File userFile = new File(currentDirectory);
 			
-			File[] dirs = new File(currentDirectory).listFiles();
-			
-			if (dirs != null) {
-				String[] fileArray = new String[dirs.length];
-				String[] fileNames = new String[dirs.length];
-				
-				for (int i = 0; i < dirs.length; i++) {
-					fileArray[i] = dirs[i].getAbsolutePath();
-				}
-				
-				for (int i = 0; i < fileArray.length; i++) {
-	    			int slashIndex = fileArray[i].lastIndexOf('/');
-	    			fileNames[i] = fileArray[i].substring(slashIndex + 1);
-	    		}
-
-				Arrays.sort(fileArray, String.CASE_INSENSITIVE_ORDER);
-				request.setAttribute("sortedFiles", fileArray);
-				request.setAttribute("sortedNames", fileNames);
+			if (userFile.isFile()) {
+				session.setAttribute("FILE", currentDirectory);
+				request.getRequestDispatcher("/DownloadFile").forward(request, response);
 			}
-			
+			else {
+				File[] dirs = new File(currentDirectory).listFiles();
+				
+				if (dirs != null) {
+					String[] fileArray = new String[dirs.length];
+					String[] fileNames = new String[dirs.length];
+					
+					for (int i = 0; i < dirs.length; i++) {
+						fileArray[i] = dirs[i].getAbsolutePath();
+					}
+					
+					for (int i = 0; i < fileArray.length; i++) {
+		    			int slashIndex = fileArray[i].lastIndexOf('/');
+		    			fileNames[i] = fileArray[i].substring(slashIndex + 1);
+		    		}
+
+					Arrays.sort(fileArray, String.CASE_INSENSITIVE_ORDER);
+					request.setAttribute("sortedFiles", fileArray);
+					request.setAttribute("sortedNames", fileNames);
+				}
+			}
+
 			String userDirectory = currentDirectory.substring(currentDirectory.lastIndexOf('/') + 1);
 			request.setAttribute("userDirectory", userDirectory);
 			request.getRequestDispatcher("file.jsp").forward(request, response);
