@@ -23,19 +23,20 @@ public class UploadFileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 
         String uploadPath = request.getParameter("uploadPath");
         String action = request.getParameter("action");
 
         if ("form".equals(action)) {
             // 업로드 창 띄우기 (파일 선택용 JSP)
-        	response.getWriter().println("<script>alert('form');");
             request.setAttribute("uploadPath", uploadPath);
             RequestDispatcher dispatcher = request.getRequestDispatcher("uploadfile.jsp");
             dispatcher.forward(request, response);
         } else if ("upload".equals(action)) {
             // 파일 업로드 처리
-        	response.getWriter().println("<script>alert('upload');");
             Part filePart = request.getPart("uploadFile");
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 

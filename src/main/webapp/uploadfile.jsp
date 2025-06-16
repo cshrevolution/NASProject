@@ -6,6 +6,7 @@
     <p>파일명: ${fileName}</p>
 
     <form method="POST" action="UploadFile">
+    	<input type="hidden" name="action" value="upload" />
         <input type="hidden" name="step" value="confirm" />
         <input type="hidden" name="fileName" value="${fileName}" />
         <input type="hidden" name="tempPath" value="${tempPath}" />

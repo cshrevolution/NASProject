@@ -11,6 +11,7 @@
 		<input type="submit" value="로그아웃">
 	</form>
 	<form method="POST" action="/UploadFile" enctype="multipart/form-data">
+		<input type="hidden" name="action" value="form" />
 		<input type="file" name="filePath" /><br>
 		<input type="submit" value="업로드" />
 	</form>
