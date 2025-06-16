@@ -152,11 +152,11 @@ public class LoadFile extends HttpServlet {
 					request.setAttribute("sortedFiles", fileArray);
 					request.setAttribute("sortedNames", fileNames);
 				}
+				
+				String userDirectory = currentDirectory.substring(currentDirectory.lastIndexOf('/') + 1);
+				request.setAttribute("userDirectory", userDirectory);
+				request.getRequestDispatcher("file.jsp").forward(request, response);
 			}
-
-			String userDirectory = currentDirectory.substring(currentDirectory.lastIndexOf('/') + 1);
-			request.setAttribute("userDirectory", userDirectory);
-			request.getRequestDispatcher("file.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
