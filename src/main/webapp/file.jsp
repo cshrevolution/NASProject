@@ -5,6 +5,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>TNAS</title>
+	<style>
+		
+	</style>
 </head>
 <body>
 	<form method="POST" action="/LogoutProcess">

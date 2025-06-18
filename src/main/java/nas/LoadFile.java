@@ -130,7 +130,7 @@ public class LoadFile extends HttpServlet {
 			
 			if (userFile.isFile()) {
 				session.setAttribute("FILE", currentDirectory);
-				request.getRequestDispatcher("/DownloadFile").forward(request, response);
+				response.sendRedirect("/DownloadFile");
 			}
 			else {
 				File[] dirs = new File(currentDirectory).listFiles();
