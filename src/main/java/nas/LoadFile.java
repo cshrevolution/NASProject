@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.*;
 import javax.sql.*;
-import java.util.Arrays;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.naming.*;
 import java.io.File;
 
@@ -37,6 +40,8 @@ public class LoadFile extends HttpServlet {
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
 		
+		boolean sibal = false;
+		
 		try {
 			ctx = new InitialContext();
 		    ds = (DataSource) ctx.lookup("datasource1");
@@ -61,6 +66,9 @@ public class LoadFile extends HttpServlet {
 		    		out.println("<script>alert('잘못된 접근입니다!'); location.href = '/';</script>");
 		    }
 		    
+		    
+		    /* 폴더, 파일 구분 안된 코드 / doPost도 동일 
+		    
 		    File[] dirs = new File(currentDirectory).listFiles();
 		    
 		    if (dirs != null) {
@@ -80,8 +88,57 @@ public class LoadFile extends HttpServlet {
 		    		request.setAttribute("sortedNames", fileNames);
 		    }
 		    
+		    */
+		    
+		    
+		    File[] dirs = new File(currentDirectory).listFiles();
+		    
+		    if (dirs != null) {
+		    	List<String> dirList = new ArrayList<>();
+		    	List<String> fileList = new ArrayList<>();
+		    	
+		    	for (int i = 0; i < dirs.length; i++) {
+		    		if (dirs[i].isFile()) {
+		    			fileList.add(dirs[i].getAbsolutePath());
+		    		}
+		    		else {
+		    			dirList.add(dirs[i].getAbsolutePath());
+		    		}
+		    	}
+		    	
+		    	dirList.sort(String.CASE_INSENSITIVE_ORDER);
+		    	fileList.sort(String.CASE_INSENSITIVE_ORDER);
+		    	
+		    	String[] dirArray = dirList.toArray(new String[0]);
+		    	String[] fileArray = fileList.toArray(new String[0]);
+		    	String[] dirNames = new String[dirArray.length];
+		    	String[] fileNames = new String[fileArray.length];
+		    	
+		    	for (int i = 0; i < dirNames.length; i++) {
+		    		int index = dirArray[i].lastIndexOf('/');
+		    		dirNames[i] = dirArray[i].substring(index + 1);
+		    	}
+		    	
+		    	for (int i = 0; i < fileNames.length; i++) {
+		    		int index = fileArray[i].lastIndexOf('/');
+		    		fileNames[i] = fileArray[i].substring(index + 1);
+		    	}
+		    	
+		    	request.setAttribute("dirArray", dirArray);
+		    	request.setAttribute("dirNames", dirNames);
+		    	request.setAttribute("fileArray", fileArray);
+		    	request.setAttribute("fileNames", fileNames);
+		    		
+		    } else {
+		    	out.println("<script>alert('ERROR'); location.href = '/';</script>");
+		    }
+		    
+		    
+		    sibal = true;
+		    
 		    String userDirectory = currentDirectory.substring(currentDirectory.lastIndexOf('/') + 1);
 			request.setAttribute("userDirectory", userDirectory);
+			request.setAttribute("currentDirectory", currentDirectory);
 		    request.getRequestDispatcher("file.jsp").forward(request, response);
 			
 		} catch (Exception e) {
@@ -134,29 +191,53 @@ public class LoadFile extends HttpServlet {
 			}
 			else {
 				File[] dirs = new File(currentDirectory).listFiles();
-				
-				if (dirs != null) {
-					String[] fileArray = new String[dirs.length];
-					String[] fileNames = new String[dirs.length];
-					
-					for (int i = 0; i < dirs.length; i++) {
-						fileArray[i] = dirs[i].getAbsolutePath();
-					}
-					
-					for (int i = 0; i < fileArray.length; i++) {
-		    			int slashIndex = fileArray[i].lastIndexOf('/');
-		    			fileNames[i] = fileArray[i].substring(slashIndex + 1);
-		    		}
-
-					Arrays.sort(fileArray, String.CASE_INSENSITIVE_ORDER);
-					request.setAttribute("sortedFiles", fileArray);
-					request.setAttribute("sortedNames", fileNames);
-				}
+			    
+			    if (dirs != null) {
+			    	List<String> dirList = new ArrayList<>();
+			    	List<String> fileList = new ArrayList<>();
+			    	
+			    	for (int i = 0; i < dirs.length; i++) {
+			    		if (dirs[i].isFile()) {
+			    			fileList.add(dirs[i].getAbsolutePath());
+			    		}
+			    		else {
+			    			dirList.add(dirs[i].getAbsolutePath());
+			    		}
+			    	}
+			    	
+			    	dirList.sort(String.CASE_INSENSITIVE_ORDER);
+			    	fileList.sort(String.CASE_INSENSITIVE_ORDER);
+			    	
+			    	String[] dirArray = dirList.toArray(new String[0]);
+			    	String[] fileArray = fileList.toArray(new String[0]);
+			    	String[] dirNames = new String[dirArray.length];
+			    	String[] fileNames = new String[fileArray.length];
+			    	
+			    	for (int i = 0; i < dirNames.length; i++) {
+			    		int index = dirArray[i].lastIndexOf('/');
+			    		dirNames[i] = dirArray[i].substring(index + 1);
+			    	}
+			    	
+			    	for (int i = 0; i < fileNames.length; i++) {
+			    		int index = fileArray[i].lastIndexOf('/');
+			    		fileNames[i] = fileArray[i].substring(index + 1);
+			    	}
+			    	
+			    	request.setAttribute("dirArray", dirArray);
+			    	request.setAttribute("dirNames", dirNames);
+			    	request.setAttribute("fileArray", fileArray);
+			    	request.setAttribute("fileNames", fileNames);
+			    		
+			    } else {
+			    	out.println("<script>alert('ERROR'); location.href = '/';</script>");
+			    }
 				
 				String userDirectory = currentDirectory.substring(currentDirectory.lastIndexOf('/') + 1);
 				request.setAttribute("userDirectory", userDirectory);
+				request.setAttribute("currentDirectory", currentDirectory);
 				request.getRequestDispatcher("file.jsp").forward(request, response);
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

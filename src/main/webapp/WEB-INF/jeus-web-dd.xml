@@ -9,4 +9,7 @@
        <use-jvm-hotswap>true</use-jvm-hotswap>
        <check-on-demand>true</check-on-demand>
     </auto-reload>
+    <library-ref>
+    	<library-name>jstl</library-name>
+    </library-ref>
 </jeus-web-dd>

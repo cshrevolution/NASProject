@@ -3,6 +3,7 @@ package nas;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -18,14 +19,12 @@ import javax.servlet.http.Part;
 
 @MultipartConfig
 @WebServlet("/UploadFile")
-public class UploadFileServlet extends HttpServlet {
+public class UploadFile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    @Override
+
+	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		request.setCharacterEncoding("UTF-8");
 
         String uploadPath = request.getParameter("uploadPath");
         String action = request.getParameter("action");
@@ -50,9 +49,7 @@ public class UploadFileServlet extends HttpServlet {
                 Files.copy(input, uploadedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
 
-            response.setContentType("text/html;charset=UTF-8");
-            response.getWriter().println("✅ 업로드 완료: " + uploadedFile.getAbsolutePath());
+            response.sendRedirect("/LoadFile?dir=" + URLEncoder.encode(uploadPath, "UTF-8"));
         }
-        else response.getWriter().println("<script>alert('ERROR');");
     }
 }

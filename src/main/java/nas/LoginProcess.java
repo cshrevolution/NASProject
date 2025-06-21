@@ -63,6 +63,7 @@ public class LoginProcess extends HttpServlet {
 			} else if ("nonmember".equals(isMember)) { // 비회원인 경우 test test 계정으로 로그인
 				ps.setString(1, "test");  
 				ps.setString(2, "test");
+				userId = "test";	// 비회원일때 session userName 속성 저장하기 위한 하드코딩;;
 			} else { // 오류 발생시 alert창을 띄우고 로그인 창으로 이동
 				out.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.'); location.href = '/';</script>");
 			}
@@ -70,7 +71,8 @@ public class LoginProcess extends HttpServlet {
 	       	rs = ps.executeQuery(); // ps 내의 완성된 sql 쿼리문을 실행해서 rs 객체에 넣음
 
 	       	if (rs.next()) { // rs 객체에 쿼리문을 실행한 결과가 있을 경우 
-	        	session.setAttribute("UID", rs.getString(1)); // rs 객체의 첫번째 값(UID)를 세션 속성에 설정 (JEUS Monitoring - Web - List Session에서 확인 가능)
+	        	session.setAttribute("UID", rs.getString(1));	// rs 객체의 첫번째 값(UID)를 세션 속성에 설정 (JEUS Monitoring - Web - List Session에서 확인 가능)
+	        	session.setAttribute("userName", userId);
 	        	out.println("<script>alert('로그인에 성공했습니다.'); location.href = '/LoadFile';</script>");
 	       	} else { // rs 객체에 쿼리문을 실행한 결과가 없을 경우 alert창을 띄우고 로그인 화면으로 이동
 	       		out.println("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다.'); location.href = '/';</script>");

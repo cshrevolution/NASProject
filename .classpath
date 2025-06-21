@@ -13,5 +13,9 @@
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/csh_revolution/jeus/lib/shared/jstl_1.2/taglibs-standard-compat-1.2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/csh_revolution/jeus/lib/shared/jstl_1.2/taglibs-standard-impl-1.2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/csh_revolution/jeus/lib/shared/jstl_1.2/taglibs-standard-jstlel-1.2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/csh_revolution/jeus/lib/shared/jstl_1.2/taglibs-standard-spec-1.2.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
