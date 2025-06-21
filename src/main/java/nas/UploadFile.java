@@ -1,14 +1,11 @@
 package nas;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLEncoder;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -21,35 +18,61 @@ import javax.servlet.http.Part;
 @WebServlet("/UploadFile")
 public class UploadFile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		
+		PrintWriter out = response.getWriter();
+		out.println("<script>alert('잘못된 접근입니다!'); location.href='/LoadFile';");
+	}
 
-	@Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
 
-        String uploadPath = request.getParameter("uploadPath");
-        String action = request.getParameter("action");
-
-        if ("form".equals(action)) {
-            // 업로드 창 띄우기 (파일 선택용 JSP)
-            request.setAttribute("uploadPath", uploadPath);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("uploadfile.jsp");
-            dispatcher.forward(request, response);
-        } else if ("upload".equals(action)) {
-            // 파일 업로드 처리
-            Part filePart = request.getPart("uploadFile");
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-
-            File uploadedFile = new File(uploadDir, fileName);
-            try (InputStream input = filePart.getInputStream()) {
-                Files.copy(input, uploadedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            }
-
-            response.sendRedirect("/LoadFile?dir=" + URLEncoder.encode(uploadPath, "UTF-8"));
-        }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	response.setContentType("text/html; charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+	
+		PrintWriter out = response.getWriter();
+		
+		String action = request.getParameter("action").toString();
+		
+		if (action.equals("uploadForm")) {
+			String currentDirectory = request.getParameter("currentDirectory");
+			String userDirectory = currentDirectory.replace("/apps/user_dir/", "");
+			
+			request.setAttribute("currentDirectory", currentDirectory);
+			request.setAttribute("userDirectory", userDirectory);
+			request.getRequestDispatcher("uploadfile.jsp").forward(request, response);
+		}
+		else if (action.equals("doUpload")) {
+			Part filePart = request.getPart("uploadFile");
+			String fileName = filePart.getSubmittedFileName();
+			
+			String uploadPath = request.getParameter("currentDirectory");
+			File file = new File(uploadPath, fileName);
+			
+			InputStream inStream = filePart.getInputStream();
+			FileOutputStream outStream = new FileOutputStream(file);
+			
+			try {
+				byte[] buffer = new byte[1024];
+				int len;
+				while ((len = inStream.read(buffer)) > 0) {
+					outStream.write(buffer, 0, len);
+				}
+				
+				out.println("<script>alert('업로드가 완료되었습니다!'); location.href='/LoadFile';</script>");
+			} catch (Exception e) {
+				out.println(e);
+			} finally {
+				inStream.close();
+				outStream.close();
+			}
+		}
+		else {
+			out.println("<script>alert('잘못된 접근입니다!'); location.href='/LoadFile';");
+		}
     }
 }

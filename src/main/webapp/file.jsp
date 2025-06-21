@@ -76,9 +76,9 @@
 			<input type="hidden" name="dir" value="<%= upperDirPath %>" />
 			<input type="submit" value="뒤로가기" class="btn btn-primary m-1"/>
 		</form>
-		<form method="POST" action="/UploadFile" enctype="multipart/form-data" class="form-control">
-		    <input type="hidden" name="action" value="form" />
-		    <input type="hidden" name="uploadPath" value="${userDirectory}" />
+		<form method="POST" action="/UploadFile" class="form-control">
+		    <input type="hidden" name="action" value="uploadForm" />
+		    <input type="hidden" name="currentDirectory" value="${currentDirectory}" />
 		    <input type="submit" value="파일 업로드" class="btn btn-primary m-1"/>
 		</form>
 	</footer>	

@@ -40,8 +40,6 @@ public class LoadFile extends HttpServlet {
 		HttpSession session = request.getSession();
 		PrintWriter out = response.getWriter();
 		
-		boolean sibal = false;
-		
 		try {
 			ctx = new InitialContext();
 		    ds = (DataSource) ctx.lookup("datasource1");
@@ -65,31 +63,6 @@ public class LoadFile extends HttpServlet {
 		    else {
 		    		out.println("<script>alert('잘못된 접근입니다!'); location.href = '/';</script>");
 		    }
-		    
-		    
-		    /* 폴더, 파일 구분 안된 코드 / doPost도 동일 
-		    
-		    File[] dirs = new File(currentDirectory).listFiles();
-		    
-		    if (dirs != null) {
-		    		String[] fileArray = new String[dirs.length];
-		    		String[] fileNames = new String[dirs.length];
-		    		
-		    		for (int i = 0; i < dirs.length; i++) {
-		    			fileArray[i] = dirs[i].getAbsolutePath();
-		    		}
-		    		
-		    		Arrays.sort(fileArray, String.CASE_INSENSITIVE_ORDER);
-		    		for (int i = 0; i < fileArray.length; i++) {
-		    			int slashIndex = fileArray[i].lastIndexOf('/');
-		    			fileNames[i] = fileArray[i].substring(slashIndex + 1);
-		    		}
-		    		request.setAttribute("sortedFiles", fileArray);
-		    		request.setAttribute("sortedNames", fileNames);
-		    }
-		    
-		    */
-		    
 		    
 		    File[] dirs = new File(currentDirectory).listFiles();
 		    
@@ -132,9 +105,6 @@ public class LoadFile extends HttpServlet {
 		    } else {
 		    	out.println("<script>alert('ERROR'); location.href = '/';</script>");
 		    }
-		    
-		    
-		    sibal = true;
 		    
 		    String userDirectory = currentDirectory.substring(currentDirectory.lastIndexOf('/') + 1);
 			request.setAttribute("userDirectory", userDirectory);
