@@ -43,6 +43,7 @@ public class DownloadFile extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
 		
 		String fileName = request.getParameter("fileName").toString();
 		String filePath = request.getParameter("filePath").toString();
@@ -63,10 +64,7 @@ public class DownloadFile extends HttpServlet {
 				os.write(fileByte, 0, fileLength);
 			}
 		} catch (Exception e) {
-			/*
 			session.removeAttribute("FILE");
-			out.println("<script>alert('다운로드 과정에서 문제가 발생했습니다.'); location.href='/';");
-			*/
 			os.flush();
 			os.close();
 			response.getWriter().println(e);
