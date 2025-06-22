@@ -21,6 +21,10 @@
 </style>
 </head>
 <body class="d-flex justify-content-center align-items-center">
+	<% 	if (session.getAttribute("UID") != null) {
+			request.getRequestDispatcher("/LoadFile").forward(request, response);		
+		}
+	%>
 
     <div class="col-md-4">
         <div class="jumbotron p-4 border rounded shadow bg-white bg-opacity-75">

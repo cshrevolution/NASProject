@@ -47,9 +47,10 @@ public class LoadFile extends HttpServlet {
 		    String currentDirectory = null;
 		    
 		    if (session.getAttribute("UID") == null) {
-		    		out.println("<script>alert('잘못된 접근입니다!'); location.href = '/';</script>");
+		    	out.println("<script>alert('잘못된 접근입니다!'); location.href = '/';</script>");
+		    	return;
 		    } else {
-		    		uid = Integer.parseInt(session.getAttribute("UID").toString());
+		    	uid = Integer.parseInt(session.getAttribute("UID").toString());
 		    }
 		    
 		    ps = con.prepareStatement(sql);
@@ -57,11 +58,11 @@ public class LoadFile extends HttpServlet {
 		    rs = ps.executeQuery();
 		    
 		    if (rs.next()) {
-		    		currentDirectory = rs.getString(1);
-		    		
+		    	currentDirectory = rs.getString(1);
 		    }
 		    else {
-		    		out.println("<script>alert('잘못된 접근입니다!'); location.href = '/';</script>");
+		    	out.println("<script>alert('잘못된 접근입니다!'); location.href = '/';</script>");
+		    	return;
 		    }
 		    
 		    File[] dirs = new File(currentDirectory).listFiles();
@@ -150,8 +151,13 @@ public class LoadFile extends HttpServlet {
 		try {
 			currentDirectory = request.getParameter("dir").toString();
 			
+			if ("/apps/user_dir".equals(currentDirectory)) {
+				out.println("<script>alert('최상위 디렉터리입니다.'); location.href = '/';</script>");
+				return;
+			}
 			if (currentDirectory.isEmpty()) {
 				out.println("<script>alert('잘못된 접근입니다!'); location.href = '/';</script>");
+				return;
 			}
 			File userFile = new File(currentDirectory);
 			

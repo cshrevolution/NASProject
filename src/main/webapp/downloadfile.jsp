@@ -12,22 +12,22 @@
 	</style>
 </head>
 <body>
-	<div>
+	<div class="col-md-4">
 		<h1>${fileName}</h1>
 		<br>
 		<br>
 		<form method="POST" action="/Preview">
 			<input type="hidden" name="filePath" value="${filePath}"/>
-			<p>텍스트 파일, 이미지 파일만 미리보기가 가능합니다!</p>
-			<button type="submit">미리보기</button>
+			<button type="submit" class="btn btn-primary form-control">미리보기</button>
 		</form>
 		<br>
 		<br>
 		<form method="POST" action="/DownloadFile">
 			<input type="hidden" name="fileName" value="${fileName}"/>
 			<input type="hidden" name="filePath" value="${filePath}"/>
-			<button type="submit">다운로드</button>
+			<button type="submit" class="btn btn-primary form-control">다운로드</button>
 		</form>
+		<p>텍스트 파일, 이미지 파일만 미리보기가 가능합니다!</p>
 	</div>
 </body>
 </html>
