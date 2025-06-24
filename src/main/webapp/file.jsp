@@ -24,7 +24,7 @@
 			gap: 40px;
 		}
 		.class-directory {
-			background-image: url('resources/directory_icon.webp');
+			background-image: url('resources/folder.png');
 			background-size: contain;
 			background-repeat: no-repeat;
 			background-position: center center;
@@ -34,7 +34,7 @@
 			background-color: white;
 		}
 		.class-file {
-			background-image: url('resources/file_icon.webp');
+			background-image: url('resources/file.png');
 			background-size: contain;
 			background-repeat: no-repeat;
 			background-position: center center;
@@ -74,12 +74,12 @@
 				String upperDirPath = dir.substring(0, index);
 			%>
 			<input type="hidden" name="dir" value="<%= upperDirPath %>" />
-			<input type="submit" value="뒤로가기" class="btn btn-primary m-1"/>
+			<input type="submit" value="뒤로가기" class="btn btn-primary m-1" style="width: 100px;"/>
 		</form>
 		<form method="POST" action="/UploadFile" class="form-control">
 		    <input type="hidden" name="action" value="uploadForm" />
 		    <input type="hidden" name="currentDirectory" value="${currentDirectory}" />
-		    <input type="submit" value="파일 업로드" class="btn btn-primary m-1"/>
+		    <input type="submit" value="파일 업로드" class="btn btn-primary m-1"  style="width: 100px;"/>
 		</form>
 	</footer>	
 </body>
